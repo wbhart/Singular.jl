@@ -120,4 +120,124 @@ var documenterSearchIndex = {"docs": [
     "text": "Here is a list of the comparison functions implemented, with the understanding that isless provides all the usual comparison operators.Function\nisless(a::n_Z, b::n_Z)We also provide the following ad hoc comparisons which again provide all of the comparison operators mentioned above.Function\nisless(a::n_Z, b::Integer)\nisless(a::Integer, b::n_Z)Examplesa = ZZ(12)\nb = ZZ(3)\n\na < b\na != b\na > 4\n5 <= b"
 },
 
+{
+    "location": "rational.html#",
+    "page": "Rational field",
+    "title": "Rational field",
+    "category": "page",
+    "text": "CurrentModule = AbstractAlgebra"
+},
+
+{
+    "location": "rational.html#Rational-field-1",
+    "page": "Rational field",
+    "title": "Rational field",
+    "category": "section",
+    "text": "AbstractAlgebra.jl provides a module, implemented in src/julia/Rational.jl for making Julia Rational{BigInt}s conform to the AbstractAlgebra.jl Field interface.In addition to providing a parent object QQ for Julia Rational{BigInt}s, we implement any additional functionality required by AbstractAlgebra.jl.Because Rational{BigInt} cannot be directly included in the AbstractAlgebra.jl abstract type hierarchy, we achieve integration of Julia Rational{BigInt}s by introducing a type union, called FieldElement, which is a union of AbstractAlgebra.FieldElem and a number of Julia types, including Rational{BigInt}. Everywhere that FieldElem is notionally used in AbstractAlgebra.jl, we are in fact using FieldElement, with additional care being taken to avoid ambiguities.The details of how this is done are technical, and we refer the reader to the implementation for details. For most intents and purposes, one can think of the Julia Rational{BigInt} type as belonging to AbstractAlgebra.FieldElem.One other technicality is that Julia defines certain functions for Rational{BigInt}, such as sqrt and exp differently to what AbstractAlgebra.jl requires. To get around this, we redefine these functions internally to AbstractAlgebra.jl, without redefining them for users of AbstractAlgebra.jl. This allows the internals of AbstractAlgebra.jl to function correctly, without broadcasting pirate definitions of already defined Julia functions to the world.To access the internal definitions, one can use AbstractAlgebra.sqrt and AbstractAlgebra.exp, etc."
+},
+
+{
+    "location": "rational.html#Types-and-parent-objects-1",
+    "page": "Rational field",
+    "title": "Types and parent objects",
+    "category": "section",
+    "text": "Rationals have type Rational{BigInt}, as in Julia itself. We simply supplement the functionality for this type as required for computer algebra.The parent objects of such integers has type Rationals{BigInt}.For convenience, we also make Rational{Int} a part of the AbstractAlgebra.jl type hierarchy and its parent object (accessible as qq) has type Rationals{Int}. But we caution that this type is not particularly useful as a model of the rationals and may not function as expected within AbstractAlgebra.jl."
+},
+
+{
+    "location": "rational.html#Rational-constructors-1",
+    "page": "Rational field",
+    "title": "Rational constructors",
+    "category": "section",
+    "text": "In order to construct rationals in AbstractAlgebra.jl, one can first construct the rational field itself. This is accomplished using either of the following constructors.FractionField(R::Integers{BigInt})Rationals{BigInt}()This gives the unique object of type Rationals{BigInt} representing the field of rationals in AbstractAlgebra.jl.In practice, one simply uses QQ which is assigned to be the return value of the above constructor. There is no need to call the constructor in practice.Here are some examples of creating the rational field and making use of the resulting parent object to coerce various elements into the field.Examplesf = QQ()\ng = QQ(123)\nh = QQ(BigInt(1234))\nk = QQ(BigInt(12), BigInt(7))\n\nQQ == FractionField(ZZ)"
+},
+
+{
+    "location": "rational.html#Basic-field-functionality-1",
+    "page": "Rational field",
+    "title": "Basic field functionality",
+    "category": "section",
+    "text": "The rational field in AbstractAlgebra.jl implements the full Field and Fraction Field interfaces.We give some examples of such functionality.Examplesf = QQ(12, 7)\n\nh = zero(QQ)\nk = one(QQ)\nisone(k) == true\niszero(f) == false\nU = base_ring(QQ)\nV = base_ring(f)\nT = parent(f)\nf == deepcopy(f)\ng = f + 12\nr = ZZ(12)//ZZ(7)\nn = numerator(r)"
+},
+
+{
+    "location": "rational.html#Rational-functionality-provided-by-AbstractAlgebra.jl-1",
+    "page": "Rational field",
+    "title": "Rational functionality provided by AbstractAlgebra.jl",
+    "category": "section",
+    "text": "The functionality below supplements that provided by Julia itself for its Rational{BigInt} type."
+},
+
+{
+    "location": "rational.html#AbstractAlgebra.sqrt-Tuple{Rational{BigInt}}",
+    "page": "Rational field",
+    "title": "AbstractAlgebra.sqrt",
+    "category": "Method",
+    "text": "sqrt{T <: Integer}(a::Rational{T})\n\nReturn the square root of a if it is the square of a rational, otherwise throw an error.\n\n\n\n"
+},
+
+{
+    "location": "rational.html#AbstractAlgebra.exp-Tuple{Rational{BigInt}}",
+    "page": "Rational field",
+    "title": "AbstractAlgebra.exp",
+    "category": "Method",
+    "text": "exp{T <: Integer}(a::Rational{T})\n\nReturn 1 if a = 0, otherwise throw an exception.\n\n\n\n"
+},
+
+{
+    "location": "rational.html#Square-root-1",
+    "page": "Rational field",
+    "title": "Square root",
+    "category": "section",
+    "text": "AbstractAlgebra.sqrt(a::Rational{BigInt})AbstractAlgebra.exp(a::Rational{BigInt})Examplesd = AbstractAlgebra.sqrt(ZZ(36)//ZZ(25))\nm = AbstractAlgebra.exp(ZZ(0)//ZZ(1))"
+},
+
+{
+    "location": "modn.html#",
+    "page": "Integers mod n",
+    "title": "Integers mod n",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "modn.html#Integers-mod-n-1",
+    "page": "Integers mod n",
+    "title": "Integers mod n",
+    "category": "section",
+    "text": "Integers mod n are implemented via the Singular n_Zn type for any positive modulus that can fit in a Julia Int.The associated ring of integers mod n is represented by a parent object which can be constructed by a call to the ResidueRing constructor.The types of the parent objects and elements of the associated rings of integers modulo n are given in the following table according to the library providing them.Library Element type Parent type\nSingular n_Zn Singular.N_ZnRingAll integer mod n element types belong directly to the abstract type RingElem and all the parent object types belong to the abstract type Ring."
+},
+
+{
+    "location": "modn.html#Integer-mod-n-functionality-1",
+    "page": "Integers mod n",
+    "title": "Integer mod n functionality",
+    "category": "section",
+    "text": "Singular.jl integers modulo n implement the Ring and Residue Ring interfaces of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/rings.htmlhttps://nemocas.github.io/AbstractAlgebra.jl/residue_rings.htmlParts of the Euclidean Ring interface may also be implemented, though Singular will report an error if division is meaningless (even after cancelling zero divisors).https://nemocas.github.io/AbstractAlgebra.jl/euclidean.htmlBelow, we describe the functionality that is specific to the Singular integers mod n ring and not already listed at the given links."
+},
+
+{
+    "location": "modn.html#Constructors-1",
+    "page": "Integers mod n",
+    "title": "Constructors",
+    "category": "section",
+    "text": "Given a ring R of integers modulo n, we also have the following coercions in addition to the standard ones expected.R(n::n_Z)\nR(n::fmpz)Coerce a Singular or Flint integer value into the ring."
+},
+
+{
+    "location": "modn.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.n_Zn}",
+    "page": "Integers mod n",
+    "title": "AbstractAlgebra.Generic.characteristic",
+    "category": "Method",
+    "text": "characteristic{T <: RingElem}(R::AbstractAlgebra.FracField{T})\n\nReturn the characteristic of the given field.\n\n\n\n"
+},
+
+{
+    "location": "modn.html#Basic-manipulation-1",
+    "page": "Integers mod n",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "isunit(::n_Zn)characteristic(::n_Zn)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
+},
+
 ]}
