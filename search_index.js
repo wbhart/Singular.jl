@@ -205,31 +205,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Rational field",
     "title": "Rational reconstruction",
     "category": "section",
-    "text": "reconstruct(::n_Z, ::n_Z)The following ad hoc versions of the same function also exist.reconstruct(::n_Z, ::Integer)\nreconstruct(::Integer, ::n_Z)"
-},
-
-{
-    "location": "rational.html#AbstractAlgebra.sqrt-Tuple{Rational{BigInt}}",
-    "page": "Rational field",
-    "title": "AbstractAlgebra.sqrt",
-    "category": "Method",
-    "text": "sqrt{T <: Integer}(a::Rational{T})\n\nReturn the square root of a if it is the square of a rational, otherwise throw an error.\n\n\n\n"
-},
-
-{
-    "location": "rational.html#AbstractAlgebra.exp-Tuple{Rational{BigInt}}",
-    "page": "Rational field",
-    "title": "AbstractAlgebra.exp",
-    "category": "Method",
-    "text": "exp{T <: Integer}(a::Rational{T})\n\nReturn 1 if a = 0, otherwise throw an exception.\n\n\n\n"
-},
-
-{
-    "location": "rational.html#Square-root-1",
-    "page": "Rational field",
-    "title": "Square root",
-    "category": "section",
-    "text": "AbstractAlgebra.sqrt(a::Rational{BigInt})AbstractAlgebra.exp(a::Rational{BigInt})Examplesd = AbstractAlgebra.sqrt(ZZ(36)//ZZ(25))\nm = AbstractAlgebra.exp(ZZ(0)//ZZ(1))"
+    "text": "reconstruct(::n_Z, ::n_Z)The following ad hoc versions of the same function also exist.reconstruct(::n_Z, ::Integer)\nreconstruct(::Integer, ::n_Z)Examplesq1 = reconstruct(ZZ(7), ZZ(3))\nq2 = reconstruct(ZZ(7), 5)"
 },
 
 {
@@ -273,11 +249,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "modn.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.n_Zn}",
+    "location": "modn.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.N_ZnRing}",
     "page": "Integers mod n",
     "title": "AbstractAlgebra.Generic.characteristic",
     "category": "Method",
-    "text": "characteristic{T <: RingElem}(R::AbstractAlgebra.FracField{T})\n\nReturn the characteristic of the given field.\n\n\n\n"
+    "text": "characteristic(R::N_ZnRing)\n\nReturn the characteristic n of the ring.\n\n\n\n"
 },
 
 {
@@ -285,7 +261,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Integers mod n",
     "title": "Basic manipulation",
     "category": "section",
-    "text": "isunit(::n_Zn)Singular.characteristic(::n_Zn)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
+    "text": "isunit(::n_Zn)Singular.characteristic(::N_ZnRing)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
 },
 
 ]}
