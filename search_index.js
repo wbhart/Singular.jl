@@ -125,7 +125,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Rational field",
     "title": "Rational field",
     "category": "page",
-    "text": "CurrentModule = AbstractAlgebra"
+    "text": "CurrentModule = Singular"
 },
 
 {
@@ -133,39 +133,79 @@ var documenterSearchIndex = {"docs": [
     "page": "Rational field",
     "title": "Rational field",
     "category": "section",
-    "text": "AbstractAlgebra.jl provides a module, implemented in src/julia/Rational.jl for making Julia Rational{BigInt}s conform to the AbstractAlgebra.jl Field interface.In addition to providing a parent object QQ for Julia Rational{BigInt}s, we implement any additional functionality required by AbstractAlgebra.jl.Because Rational{BigInt} cannot be directly included in the AbstractAlgebra.jl abstract type hierarchy, we achieve integration of Julia Rational{BigInt}s by introducing a type union, called FieldElement, which is a union of AbstractAlgebra.FieldElem and a number of Julia types, including Rational{BigInt}. Everywhere that FieldElem is notionally used in AbstractAlgebra.jl, we are in fact using FieldElement, with additional care being taken to avoid ambiguities.The details of how this is done are technical, and we refer the reader to the implementation for details. For most intents and purposes, one can think of the Julia Rational{BigInt} type as belonging to AbstractAlgebra.FieldElem.One other technicality is that Julia defines certain functions for Rational{BigInt}, such as sqrt and exp differently to what AbstractAlgebra.jl requires. To get around this, we redefine these functions internally to AbstractAlgebra.jl, without redefining them for users of AbstractAlgebra.jl. This allows the internals of AbstractAlgebra.jl to function correctly, without broadcasting pirate definitions of already defined Julia functions to the world.To access the internal definitions, one can use AbstractAlgebra.sqrt and AbstractAlgebra.exp, etc."
+    "text": "Singular.jl provides rational numbers via Singular\'s n_Q type.There is a constant parent object representing the field of rationals, called QQ in Singular.jl. It is defined by QQ = Rationals(), which calls the constructor for the unique field of rationals in Singular."
 },
 
 {
-    "location": "rational.html#Types-and-parent-objects-1",
+    "location": "rational.html#Rational-functionality-1",
     "page": "Rational field",
-    "title": "Types and parent objects",
+    "title": "Rational functionality",
     "category": "section",
-    "text": "Rationals have type Rational{BigInt}, as in Julia itself. We simply supplement the functionality for this type as required for computer algebra.The parent objects of such integers has type Rationals{BigInt}.For convenience, we also make Rational{Int} a part of the AbstractAlgebra.jl type hierarchy and its parent object (accessible as qq) has type Rationals{Int}. But we caution that this type is not particularly useful as a model of the rationals and may not function as expected within AbstractAlgebra.jl."
+    "text": "The rationals in Singular.jl implement the Field interface defined by AbstractAlgebra.jl. They also implement the Fraction Field interface.https://nemocas.github.io/AbstractAlgebra.jl/fields.htmlhttps://nemocas.github.io/AbstractAlgebra.jl/fraction_fields.htmlWe describe here only the extra functionality provided by Singular that is not already described in those interfaces."
 },
 
 {
-    "location": "rational.html#Rational-constructors-1",
+    "location": "rational.html#Constructors-1",
     "page": "Rational field",
-    "title": "Rational constructors",
+    "title": "Constructors",
     "category": "section",
-    "text": "In order to construct rationals in AbstractAlgebra.jl, one can first construct the rational field itself. This is accomplished using either of the following constructors.FractionField(R::Integers{BigInt})Rationals{BigInt}()This gives the unique object of type Rationals{BigInt} representing the field of rationals in AbstractAlgebra.jl.In practice, one simply uses QQ which is assigned to be the return value of the above constructor. There is no need to call the constructor in practice.Here are some examples of creating the rational field and making use of the resulting parent object to coerce various elements into the field.Examplesf = QQ()\ng = QQ(123)\nh = QQ(BigInt(1234))\nk = QQ(BigInt(12), BigInt(7))\n\nQQ == FractionField(ZZ)"
+    "text": "In addition to the standard constructors required for the interfaces listed above, Singular.jl provides the following constructors.QQ(n::n_Z)\nQQ(n::fmpz)Construct a Singular rational from the given integer n."
 },
 
 {
-    "location": "rational.html#Basic-field-functionality-1",
+    "location": "rational.html#Base.numerator-Tuple{Singular.n_Q}",
     "page": "Rational field",
-    "title": "Basic field functionality",
-    "category": "section",
-    "text": "The rational field in AbstractAlgebra.jl implements the full Field and Fraction Field interfaces.We give some examples of such functionality.Examplesf = QQ(12, 7)\n\nh = zero(QQ)\nk = one(QQ)\nisone(k) == true\niszero(f) == false\nU = base_ring(QQ)\nV = base_ring(f)\nT = parent(f)\nf == deepcopy(f)\ng = f + 12\nr = ZZ(12)//ZZ(7)\nn = numerator(r)"
+    "title": "Base.numerator",
+    "category": "Method",
+    "text": "numerator(n::n_Q)\n\nReturn the numerator of the given fraction.\n\n\n\n"
 },
 
 {
-    "location": "rational.html#Rational-functionality-provided-by-AbstractAlgebra.jl-1",
+    "location": "rational.html#Base.denominator-Tuple{Singular.n_Q}",
     "page": "Rational field",
-    "title": "Rational functionality provided by AbstractAlgebra.jl",
+    "title": "Base.denominator",
+    "category": "Method",
+    "text": "denominator(n::n_Q)\n\nReturn the denominator of the given fraction.\n\n\n\n"
+},
+
+{
+    "location": "rational.html#Base.abs-Tuple{Singular.n_Q}",
+    "page": "Rational field",
+    "title": "Base.abs",
+    "category": "Method",
+    "text": "abs(n::n_Q)\n\nReturn the absolute value of the given fraction.\n\n\n\n"
+},
+
+{
+    "location": "rational.html#Basic-manipulation-1",
+    "page": "Rational field",
+    "title": "Basic manipulation",
     "category": "section",
-    "text": "The functionality below supplements that provided by Julia itself for its Rational{BigInt} type."
+    "text": "numerator(::n_Q)denominator(::n_Q)abs(::n_Q)f = QQ(-12, 7)\n\nh = numerator(QQ)\nk = denominator(QQ)\nm = abs(f)"
+},
+
+{
+    "location": "rational.html#Comparison-1",
+    "page": "Rational field",
+    "title": "Comparison",
+    "category": "section",
+    "text": "Here is a list of the comparison functions implemented, with the understanding that isless provides all the usual comparison operators.Function\nisless(a::n_Q, b::n_Q)We also provide the following ad hoc comparisons which again provide all of the comparison operators mentioned above.Function\nisless(a::n_Q, b::Integer)\nisless(a::Integer, b::n_Q)Examplesa = QQ(12, 7)\nb = QQ(-3, 5)\n\na > b\na != b\na > 1\n5 >= b"
+},
+
+{
+    "location": "rational.html#Nemo.reconstruct-Tuple{Singular.n_Z,Singular.n_Z}",
+    "page": "Rational field",
+    "title": "Nemo.reconstruct",
+    "category": "Method",
+    "text": "reconstruct(x::n_Z, y::n_Z)\n\nGiven x modulo y, find rs such that x equiv rs pmody for values r and s satisfying the bound y  2(r + 1)(s + 1).\n\n\n\n"
+},
+
+{
+    "location": "rational.html#Rational-reconstruction-1",
+    "page": "Rational field",
+    "title": "Rational reconstruction",
+    "category": "section",
+    "text": "reconstruct(::n_Z, ::n_Z)The following ad hoc versions of the same function also exist.reconstruct(::n_Z, ::Integer)\nreconstruct(::Integer, ::n_Z)"
 },
 
 {
