@@ -265,6 +265,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "modn.html#AbstractAlgebra.Generic.isunit-Tuple{Singular.n_Zn}",
+    "page": "Integers mod n",
+    "title": "AbstractAlgebra.Generic.isunit",
+    "category": "Method",
+    "text": "isunit(n::n_Zn)\n\nReturn true if the given value is a unit in the integers modulo n.\n\n\n\n"
+},
+
+{
     "location": "modn.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.n_Zn}",
     "page": "Integers mod n",
     "title": "AbstractAlgebra.Generic.characteristic",
@@ -277,7 +285,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Integers mod n",
     "title": "Basic manipulation",
     "category": "section",
-    "text": "isunit(::n_Zn)characteristic(::n_Zn)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
+    "text": "isunit(::n_Zn)Singular.characteristic(::n_Zn)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
 },
 
 ]}
