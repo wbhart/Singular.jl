@@ -328,4 +328,76 @@ var documenterSearchIndex = {"docs": [
     "text": "Int(n::n_Zp)Lift the integer n modulo p to a Julia Int. The result is always in the range 0 p).ExamplesR = Fp(23)\na = R(5)\n\nb = Int(a)"
 },
 
+{
+    "location": "GF.html#",
+    "page": "Finite fields",
+    "title": "Finite fields",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "GF.html#Finite-fields-1",
+    "page": "Finite fields",
+    "title": "Finite fields",
+    "category": "section",
+    "text": "Finite fields are implemented via the Singular n_GF type for any characteristic and degree contained in the Singular Conway tables.The associated finite field is represented by a parent object which can be constructed by a call to the FiniteField constructor.The types of the parent objects and elements of the associated finite fields are given in the following table according to the library providing them.Library Element type Parent type\nSingular n_GF Singular.N_GFieldAll finite field element types belong directly to the abstract type FieldElem and all the parent object types belong to the abstract type Field."
+},
+
+{
+    "location": "GF.html#Finite-field-functionality-1",
+    "page": "Finite fields",
+    "title": "Finite field functionality",
+    "category": "section",
+    "text": "Singular.jl finite fields implement the Field interface of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/fields.htmlBelow, we describe the functionality that is specific to Singular finite field and not already listed at the given link."
+},
+
+{
+    "location": "GF.html#Singular.FiniteField-Tuple{Int64,Int64,String}",
+    "page": "Finite fields",
+    "title": "Singular.FiniteField",
+    "category": "Method",
+    "text": "FiniteField(p::Int, n::Int, S::String; cached=true)\n\nReturns a tuple K, a consisting of a finite field K of characteristic p and degree n, and its generator a. The string used to print the generator is given by S. If the finite field is not listed in the Conway tables included in Singular, an error will be raised. By default, finite fields are cached globally, so that there is only one finite field in the system with given characteristic, degree and string. If this is not the desired behaviour, one can pass false for the optional cached parameter.\n\n\n\n"
+},
+
+{
+    "location": "GF.html#Constructors-1",
+    "page": "Finite fields",
+    "title": "Constructors",
+    "category": "section",
+    "text": "The following constructors are available to create finite fields and their elements.Singular.FiniteField(::Int, ::Int, ::String; ::Bool)Given a finite field R, we also have the following coercions in addition to the standard ones expected.R(n::fmpz)Coerce a Flint integer value into the field."
+},
+
+{
+    "location": "GF.html#AbstractAlgebra.Generic.degree-Tuple{Singular.N_GField}",
+    "page": "Finite fields",
+    "title": "AbstractAlgebra.Generic.degree",
+    "category": "Method",
+    "text": "degree(R::N_GField)\n\nReturn the degree of the field as an extension of mathbbF_p.\n\n\n\n"
+},
+
+{
+    "location": "GF.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.N_GField}",
+    "page": "Finite fields",
+    "title": "AbstractAlgebra.Generic.characteristic",
+    "category": "Method",
+    "text": "characteristic(R::N_GField)\n\nReturn the characteristic of the field.\n\n\n\n"
+},
+
+{
+    "location": "GF.html#AbstractAlgebra.Generic.isunit-Tuple{Singular.n_GF}",
+    "page": "Finite fields",
+    "title": "AbstractAlgebra.Generic.isunit",
+    "category": "Method",
+    "text": "isunit(n::n_GF)\n\nReturn true if n is a unit in the field, i.e. nonzero.\n\n\n\n"
+},
+
+{
+    "location": "GF.html#Basic-manipulation-1",
+    "page": "Finite fields",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "Singular.degree(::N_GField)Singular.characteristic(::N_GField)isunit(::n_GF)ExamplesR = FiniteField(7, 2)\na = R(5)\n\nisunit(a)\nc = characteristic(R)\nd = degree(R)"
+},
+
 ]}
