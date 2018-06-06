@@ -320,4 +320,12 @@ var documenterSearchIndex = {"docs": [
     "text": "isunit(::n_Zp)Singular.characteristic(::N_ZpField)ExamplesR = Fp(23)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
 },
 
+{
+    "location": "modp.html#Conversions-1",
+    "page": "Integers mod p",
+    "title": "Conversions",
+    "category": "section",
+    "text": "Int(n::n_Zp)Lift the integer n modulo p to a Julia Int. The result is always in the range 0 p).ExamplesR = Fp(23)\na = R(5)\n\nb = Int(a)"
+},
+
 ]}
