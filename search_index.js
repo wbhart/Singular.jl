@@ -285,7 +285,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Integers mod p",
     "title": "Integer mod p functionality",
     "category": "section",
-    "text": "Singular.jl integers modulo n implement the Field and Residue Ring interfaces of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/fields.htmlhttps://nemocas.github.io/AbstractAlgebra.jl/residue_rings.htmlBelow, we describe the functionality that is specific to the Singular integers mod p field and not already listed at the given links."
+    "text": "Singular.jl integers modulo p implement the Field and Residue Ring interfaces of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/fields.htmlhttps://nemocas.github.io/AbstractAlgebra.jl/residue_rings.htmlBelow, we describe the functionality that is specific to the Singular integers mod p field and not already listed at the given links."
 },
 
 {
