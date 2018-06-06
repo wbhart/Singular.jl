@@ -264,4 +264,60 @@ var documenterSearchIndex = {"docs": [
     "text": "isunit(::n_Zn)Singular.characteristic(::N_ZnRing)ExamplesR = ResidueRing(ZZ, 26)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
 },
 
+{
+    "location": "modp.html#",
+    "page": "Integers mod p",
+    "title": "Integers mod p",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "modp.html#Integers-mod-p-1",
+    "page": "Integers mod p",
+    "title": "Integers mod p",
+    "category": "section",
+    "text": "Integers mod a prime p are implemented via the Singular n_Zp type for any positive prime modulus that can fit in a Julia Int.The associated field of integers mod p is represented by a parent object which can be constructed by a call to the Fp constructor.The types of the parent objects and elements of the associated fields of integers modulo p are given in the following table according to the library providing them.Library Element type Parent type\nSingular n_Zp Singular.N_ZpFieldAll integer mod p element types belong directly to the abstract type FieldElem and all the parent object types belong to the abstract type Field."
+},
+
+{
+    "location": "modp.html#Integer-mod-p-functionality-1",
+    "page": "Integers mod p",
+    "title": "Integer mod p functionality",
+    "category": "section",
+    "text": "Singular.jl integers modulo n implement the Field and Residue Ring interfaces of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/fields.htmlhttps://nemocas.github.io/AbstractAlgebra.jl/residue_rings.htmlBelow, we describe the functionality that is specific to the Singular integers mod p field and not already listed at the given links."
+},
+
+{
+    "location": "modp.html#Constructors-1",
+    "page": "Integers mod p",
+    "title": "Constructors",
+    "category": "section",
+    "text": "The following constructors are available to create the field of integers modulo a prime p.Fp(p::Int; cached=true)Construct the field of integers modulo p. By default, the field is cached, so that all fields of integers modulo p have the same parent object. If this is not the desired behaviour, the cached paramater can be set to false. If p is not a prime, and exception is raised.Given a field R of integers modulo p, we also have the following coercions in addition to the standard ones expected.R(n::n_Z)\nR(n::fmpz)Coerce a Singular or Flint integer value into the field."
+},
+
+{
+    "location": "modp.html#AbstractAlgebra.Generic.isunit-Tuple{Singular.n_Zp}",
+    "page": "Integers mod p",
+    "title": "AbstractAlgebra.Generic.isunit",
+    "category": "Method",
+    "text": "isunit(n::n_Zp)\n\nReturn true if n is a unit in the field, i.e. nonzero.\n\n\n\n"
+},
+
+{
+    "location": "modp.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.N_ZpField}",
+    "page": "Integers mod p",
+    "title": "AbstractAlgebra.Generic.characteristic",
+    "category": "Method",
+    "text": "characteristic(R::N_ZpField)\n\nReturn the characteristic of the field.\n\n\n\n"
+},
+
+{
+    "location": "modp.html#Basic-manipulation-1",
+    "page": "Integers mod p",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "isunit(::n_Zp)Singular.characteristic(::N_ZpField)ExamplesR = Fp(23)\na = R(5)\n\nisunit(a)\nc = characteristic(R)"
+},
+
 ]}
