@@ -445,7 +445,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Multivariate polynomials",
     "title": "Multivariate polynomials",
     "category": "section",
-    "text": "Singular.jl allows the creation of multivariate polynomials over any of the coefficient rings described above.The default multivariate polynomial type in Singular.jl is the Singular spoly type.The associated polynomial ring is represented by the constant parent object which can be constructed by a call to the PolynomialRing constructor.The types of the polynomial ring parent objects and elements thereof are given in the following table according to the library provding them.Library Element type Parent type\nSingular spoly{T} Singular.PolyRing{T}These types are parameterised by the type of elements in the coefficient ring of the polynomials.All polynomial types belong directly to the abstract type RingElem and all the polynomial ring parent object types belong to the abstract type Ring."
+    "text": "Singular.jl allows the creation of multivariate polynomials over any of the coefficient rings described above.The default multivariate polynomial type in Singular.jl is the Singular spoly type.The associated polynomial ring is represented by a parent object which can be constructed by a call to the PolynomialRing constructor.The types of the polynomial ring parent objects and elements thereof are given in the following table according to the library provding them.Library Element type Parent type\nSingular spoly{T} Singular.PolyRing{T}These types are parameterised by the type of elements in the coefficient ring of the polynomials.All polynomial types belong directly to the abstract type RingElem and all the polynomial ring parent object types belong to the abstract type Ring."
 },
 
 {
@@ -517,7 +517,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Multivariate polynomials",
     "title": "Basic manipulation",
     "category": "section",
-    "text": "ngens(::PolyRing)has_global_ordering(R::PolyRing)characteristic(R::PolyRing)degree_bound(R::PolyRing)lead_exponent(p::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 3)\n\nn = ngens(R)\nhas_global_ordering(R) == true\nc = characteristic(R)\nL = degree_bound(R)\nexps = lead_exponent(x1*x2 + 3x1*x2^2 + x3 + 2)"
+    "text": "ngens(::PolyRing)has_global_ordering(R::PolyRing)Singular.characteristic(R::PolyRing)degree_bound(R::PolyRing)lead_exponent(p::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 3)\n\nn = ngens(R)\nhas_global_ordering(R) == true\nc = characteristic(R)\nL = degree_bound(R)\nexps = lead_exponent(x1*x2 + 3x1*x2^2 + x3 + 2)"
 },
 
 {
@@ -541,7 +541,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Multivariate polynomials",
     "title": "Content and primitive part",
     "category": "section",
-    "text": "When coefficient rings have a meaningful GCD function, the following functions are available.primpart(x::spoly)content(x::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 2)\n\nf = 3x1^2 + 3x1*x2 + 6x2^2\n\np = primpart(f)\nc = content(f)"
+    "text": "When coefficient rings have a meaningful GCD function, the following functions are available.Singular.primpart(x::spoly)Singular.content(x::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 2)\n\nf = 3x1^2 + 3x1*x2 + 6x2^2\n\np = primpart(f)\nc = content(f)"
 },
 
 ]}
