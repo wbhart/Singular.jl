@@ -432,4 +432,116 @@ var documenterSearchIndex = {"docs": [
     "text": "Given an AbstractAlgebra compatible ring R, e.g. a Nemo ring, we have the following constructor, which returns the associated Singular.jl coefficient ring..CoefficientRing(R::Ring)If there are generators to be coerced from Nemo/AbstractAlgebra into corresponding elements, the Singular.jl coefficient ring can be used to coerce them to a Singular n_unknown element.ExamplesR, x = Nemo.PolynomialRing(ZZ, \"x\")\nS = CoefficientRing(R)\nt = S(x)Note that it is unlikely that a user directly needs to construct the Singular coefficient ring from a Nemo ring, since the Singular.jl constructors are designed to accept Nemo coefficient rings directly. Singular.jl automatically constructs the required Singular coefficient ring and makes use of it."
 },
 
+{
+    "location": "polynomial.html#",
+    "page": "Multivariate polynomials",
+    "title": "Multivariate polynomials",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "polynomial.html#Multivariate-polynomials-1",
+    "page": "Multivariate polynomials",
+    "title": "Multivariate polynomials",
+    "category": "section",
+    "text": "Singular.jl allows the creation of multivariate polynomials over any of the coefficient rings described above.The default multivariate polynomial type in Singular.jl is the Singular spoly type.The associated polynomial ring is represented by the constant parent object which can be constructed by a call to the PolynomialRing constructor.The types of the polynomial ring parent objects and elements thereof are given in the following table according to the library provding them.Library Element type Parent type\nSingular spoly{T} Singular.PolyRing{T}These types are parameterised by the type of elements in the coefficient ring of the polynomials.All polynomial types belong directly to the abstract type RingElem and all the polynomial ring parent object types belong to the abstract type Ring."
+},
+
+{
+    "location": "polynomial.html#Multivariate-polynomial-functionality-1",
+    "page": "Multivariate polynomials",
+    "title": "Multivariate polynomial functionality",
+    "category": "section",
+    "text": "Singular.jl polynomials implement the Multivariate Polynomial Ring interface of AbstractAlgebra.jl.https://nemocas.github.io/AbstractAlgebra.jl/mpolynomial_rings.htmlIn particular, Singular polynomials are sparse distributed, but do not have random access. Instead, they implement iterator access to terms. This is due to their storage in a linked list, for efficient implementation of Groebner basis algorithms.Some polynomial rings may also implement part of the Euclidean Ring interface, where this is appropriate.https://nemocas.github.io/AbstractAlgebra.jl/euclidean.htmlBelow, we describe the functionality that is specific to the Singular multivariate  polynomials that is not documented in the general multivariate interface."
+},
+
+{
+    "location": "polynomial.html#Constructors-1",
+    "page": "Multivariate polynomials",
+    "title": "Constructors",
+    "category": "section",
+    "text": "PolynomialRing(R::Union{Ring, Field}, s::Array{String, 1};\n   cached::Bool = true, ordering::Symbol = :degrevlex,\n      ordering2::Symbol = :comp1min, degree_bound::Int = 0)Returns a tuple, S x consisting of a multivariate polynomial ring S and an array of variables (from which polynomials can be constructed). The ring R must be a valid Singular coefficient ring, or any Nemo/AbstractAlgebra coefficient ring. The array s must be a list of strings corresponding to how the variables will be printed. By default, there will only be one Singular polynomial ring in the system for each combination of coefficient ring, list of variable names, ordering and degree bound. This is accomplished by making use of a global cache. If this is not the desired behaviour, false can be passed to the optional argument cached. Two orderings can be specified, one for term ordering of the polynomials, and another for ordering of module components. They can occur in either order, the first taking precedence over the other, when the polynomials are used to represent module generators. If either is not specified, the indicated default is used.The options for polynomial term ordering are the symbols, :lex, :deglex and :degrevlex, and the options for module component ordering are comp1min and comp1max.If one has an a priori bound on the degree in each variable of a polynomial (including for all intermediate computations in this ring), one can specify it using the degree_bound optional parameter. Singular may then be able to use a more efficient representation internally, which will use less memory and allow for faster arithmetic. By default, Singular uses a bound of 16 bits internally for the exponent of each variable, however this is a signed value, so that the default is for nonnegative exponents that fit in 15 bits.Note that internally, Singular may use a higher bound than specified, if it will not increase the amount of storage required. Singular enforces this higher bound and an error results if an overflow is detected during computation.ExamplesR, (x, y, z) = PolynomialRing(ZZ, [\"x\", \"y\", \"z\"])\n\nS, vars = PolynomialRing(QQ, [\"x\", \"y\"]; ordering=:deglex)\n\nT, x = PolynomialRing(ZZ, [\"x$i\" for i in 1:5];\n       ordering=:comp1max, ordering2=:degrevlex, degree_bound=5)See also the convenience macros below for simple use cases."
+},
+
+{
+    "location": "polynomial.html#Polynomial-ring-macros-1",
+    "page": "Multivariate polynomials",
+    "title": "Polynomial ring macros",
+    "category": "section",
+    "text": "For convenience, we provide some macros for constructing polynomial rings and injecting the variables into scope. These are easier to use, but have some limitations. In particular, they can only be used at the top level by the user, and cannot be used programmatically or in library code (it is not possible to inject an arbitrary number of variables into scope inside a function).The macros are designed for simple use cases, and do not offer the full power of the most general constructor above.@PolynomialRing(R, s, n, o)Given a coefficient ring R, a root variable name, e.g. \"x\", a number of variable n and a polynomial term ordering o, create the variables x1, x2, ..., xn and inject them into scope, and return the corresponding polynomial ring S.@PolynomialRing(R, s, n)As per the previous macro, with a default of :degrevlex for the polynomial term ordering.ExamplesS = @PolynomialRing(ZZ, \"x\", 5, :deglex)\n\nT = @PolynomialRing(QQ, \"y\", 10)"
+},
+
+{
+    "location": "polynomial.html#Singular.ngens-Tuple{Singular.PolyRing}",
+    "page": "Multivariate polynomials",
+    "title": "Singular.ngens",
+    "category": "Method",
+    "text": "ngens(R::PolyRing)\n\nReturn the number of variables in the given polynomial ring.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#Singular.has_global_ordering-Tuple{Singular.PolyRing}",
+    "page": "Multivariate polynomials",
+    "title": "Singular.has_global_ordering",
+    "category": "Method",
+    "text": "has_global_ordering(R::PolyRing)\n\nReturn true if the given polynomial has a global ordering, i.e. if 1  x for each variable x in the ring. This include :lex, :deglex and :degrevlex orderings..\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#AbstractAlgebra.Generic.characteristic-Tuple{Singular.PolyRing}",
+    "page": "Multivariate polynomials",
+    "title": "AbstractAlgebra.Generic.characteristic",
+    "category": "Method",
+    "text": "characteristic(R::PolyRing)\n\nReturn the characteristic of the polynomial ring, i.e. the characteristic of the coefficient ring.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#Singular.degree_bound-Tuple{Singular.PolyRing}",
+    "page": "Multivariate polynomials",
+    "title": "Singular.degree_bound",
+    "category": "Method",
+    "text": "degree_bound(R::PolyRing)\n\nReturn the internal degree bound in each variable, enforced by Singular. This is the largest positive value any degree can have before an overflow will occur. This internal bound may be higher than the bound requested by the user via the  degree_bound parameter of the PolynomialRing constructor.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#Singular.lead_exponent-Tuple{Singular.spoly}",
+    "page": "Multivariate polynomials",
+    "title": "Singular.lead_exponent",
+    "category": "Method",
+    "text": "lead_exponent(p::spoly)\n\nReturn the exponent vector of the leading term of the given polynomial. The return value is a Julia 1-dimensional array giving the exponent for each variable of the leading term.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#Basic-manipulation-1",
+    "page": "Multivariate polynomials",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "ngens(::PolyRing)has_global_ordering(R::PolyRing)characteristic(R::PolyRing)degree_bound(R::PolyRing)lead_exponent(p::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 3)\n\nn = ngens(R)\nhas_global_ordering(R) == true\nc = characteristic(R)\nL = degree_bound(R)\nexps = lead_exponent(x1*x2 + 3x1*x2^2 + x3 + 2)"
+},
+
+{
+    "location": "polynomial.html#AbstractAlgebra.Generic.primpart-Tuple{Singular.spoly}",
+    "page": "Multivariate polynomials",
+    "title": "AbstractAlgebra.Generic.primpart",
+    "category": "Method",
+    "text": "primpart(x::spoly)\n\nReturn the primitive part of the polynomial, i.e. the polynomial divided by the GCD of its coefficients.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#AbstractAlgebra.Generic.content-Tuple{Singular.spoly}",
+    "page": "Multivariate polynomials",
+    "title": "AbstractAlgebra.Generic.content",
+    "category": "Method",
+    "text": "content(x::spoly)\n\nReturn the content of the polynomial, i.e. the GCD of its coefficients.\n\n\n\n"
+},
+
+{
+    "location": "polynomial.html#Content-and-primitive-part-1",
+    "page": "Multivariate polynomials",
+    "title": "Content and primitive part",
+    "category": "section",
+    "text": "When coefficient rings have a meaningful GCD function, the following functions are available.primpart(x::spoly)content(x::spoly)ExamplesR = @PolynomialRing(ZZ, \"x\", 2)\n\nf = 3x1^2 + 3x1*x2 + 6x2^2\n\np = primpart(f)\nc = content(f)"
+},
+
 ]}
