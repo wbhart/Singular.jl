@@ -1018,23 +1018,23 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#",
-    "page": "Resolution",
-    "title": "Resolution",
+    "page": "Resolutions",
+    "title": "Resolutions",
     "category": "page",
     "text": "CurrentModule = Singular"
 },
 
 {
-    "location": "resolution.html#Resolution-1",
-    "page": "Resolution",
-    "title": "Resolution",
+    "location": "resolution.html#Resolutions-1",
+    "page": "Resolutions",
+    "title": "Resolutions",
     "category": "section",
     "text": "Functions for creating free resolutions of modules and ideals in Singular.jl return a special Singular object of type sresolution{T}. The support in Singular.jl for this type primarily exists to allow interaction with such resolutions. Free resolutions can have the property of being minimal, which is specified by the minimal field of the sresolution{T} type.Resolution objects have a parent object which represents the set of resolutions they belong to, the data for which is given by the polynomial ring R over which the modules in the resolution are defined.The types of resolutions and associated parent objects are given in the following table according to the library provding them.Library Element type Parent type\nSingular sresolution{T} Singular.ResolutionSet{T}These types are parameterised by the type of elements in the polynomial ring R over which the modules belonging to the resolution are defined.All resolution types belong directly to the abstract type SetElem and all the resolution set parent object types belong to the abstract type Set."
 },
 
 {
     "location": "resolution.html#Resolution-functionality-1",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Resolution functionality",
     "category": "section",
     "text": "Singular.jl resolutions implement standard operations one would expect on all AbstractAlgebra compatible objects. These include:Operations common to all AbstractAlgebra objects, such as parent, base_ring, elem_type, parent_type, parent, deepcopy, etc.Below, we describe all of the functionality for Singular.jl resolutions that is not included in this list of basic operations."
@@ -1042,7 +1042,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Constructors-1",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Constructors",
     "category": "section",
     "text": "Resolutions can currently only be created by taking the free resolution of an ideal or module over a polynomial ring, as described in the relevant sections of the documentation.Alternatively, resolutions can be refined to minimal resolutions, as described below.Other than this, there are currently no additional ways to create resolutions in Singular.jl."
@@ -1050,7 +1050,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Base.length-Tuple{Singular.sresolution}",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Base.length",
     "category": "Method",
     "text": "length(r::sresolution)\n\nReturn the length of the resolution. This is what is mathematically meant by the length of a resolution. Over a field, this should be at most the number of variables in the polynomial ring.\n\n\n\n"
@@ -1058,7 +1058,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Basic-manipulation-1",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Basic manipulation",
     "category": "section",
     "text": "length(::sresolution)Singular.jl overloads the getindex function so that one can access the modules in a resolution F.F[n::Int]ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nI = Ideal(R, x*y + 1, x^2 + 1)\nF = fres(std(I), 0)\n\nn = length(F)\nM1 = F[1]"
@@ -1066,7 +1066,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Singular.betti-Tuple{Singular.sresolution}",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Singular.betti",
     "category": "Method",
     "text": "betti(r::sresolution)\n\nReturn the Betti numbers, i.e. the ranks of the free modules in the given free resolution. These are returned as a Julia array of Ints.\n\n\n\n"
@@ -1074,7 +1074,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Betti-numbers-1",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Betti numbers",
     "category": "section",
     "text": "betti(::sresolution)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nI = Ideal(R, x*y + 1, x^2 + 1)\nF = fres(std(I), 3)\nM = minres(F)\n\nB = betti(M)"
@@ -1082,7 +1082,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Singular.minres-Union{Tuple{Singular.sresolution{T}}, Tuple{T}} where T<:AbstractAlgebra.RingElem",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Singular.minres",
     "category": "Method",
     "text": "minres{T <: AbstractAlgebra.RingElem}(r::sresolution{T})\n\nReturn a minimal free resolution, given any free resolution. If the supplied resolution is already minimal, it may be returned without making a copy.\n\n\n\n"
@@ -1090,7 +1090,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "resolution.html#Minimal-resolutions-1",
-    "page": "Resolution",
+    "page": "Resolutions",
     "title": "Minimal resolutions",
     "category": "section",
     "text": "minres{T <: AbstractAlgebra.RingElem}(::sresolution{T})ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nI = Ideal(R, x*y + 1, x^2 + 1)\nF = fres(std(I), 3)\nM = minres(F)"
