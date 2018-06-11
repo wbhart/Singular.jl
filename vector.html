@@ -4,14 +4,13 @@
 M = FreeModule(R, 3)
 v2 = M([x + 1, x*y + 1, y])
 
-v1 = vector(R, x + 1, x*y + 1, y)</code></pre><h3><a class="nav-anchor" id="Basic-manipulation-1" href="#Basic-manipulation-1">Basic manipulation</a></h3><section class="docstring"><div class="docstring-header"><a class="docstring-binding" id="Base.LinAlg.rank-Tuple{Singular.FreeMod}" href="#Base.LinAlg.rank-Tuple{Singular.FreeMod}"><code>Base.LinAlg.rank</code></a> — <span class="docstring-category">Method</span>.</div><div><pre><code class="language-none">rank(M::FreeMod)</code></pre><blockquote><p>Return the rank of the given free module.</p></blockquote></div><a class="source-link" target="_blank" href="https://github.com/oscar-system/Singular.jl/blob/4c0a9522a7a6785a4513ea4d1e2d90976522ff69/src/module/vector.jl#L21">source</a></section><pre><code class="language-none">gens{T &lt;: AbstractAlgebra.RingElem}(::FreeMod{T})```
+v1 = vector(R, x + 1, x*y + 1, y)</code></pre><h3><a class="nav-anchor" id="Basic-manipulation-1" href="#Basic-manipulation-1">Basic manipulation</a></h3><section class="docstring"><div class="docstring-header"><a class="docstring-binding" id="Base.LinAlg.rank-Tuple{Singular.FreeMod}" href="#Base.LinAlg.rank-Tuple{Singular.FreeMod}"><code>Base.LinAlg.rank</code></a> — <span class="docstring-category">Method</span>.</div><div><pre><code class="language-none">rank(M::FreeMod)</code></pre><blockquote><p>Return the rank of the given free module.</p></blockquote></div><a class="source-link" target="_blank" href="https://github.com/oscar-system/Singular.jl/blob/4c0a9522a7a6785a4513ea4d1e2d90976522ff69/src/module/vector.jl#L21">source</a></section><section class="docstring"><div class="docstring-header"><a class="docstring-binding" id="AbstractAlgebra.Generic.gens-Union{Tuple{Singular.FreeMod{T}}, Tuple{T}} where T&lt;:AbstractAlgebra.RingElem" href="#AbstractAlgebra.Generic.gens-Union{Tuple{Singular.FreeMod{T}}, Tuple{T}} where T&lt;:AbstractAlgebra.RingElem"><code>AbstractAlgebra.Generic.gens</code></a> — <span class="docstring-category">Method</span>.</div><div><pre><code class="language-none">gens{T &lt;: AbstractAlgebra.RingElem}(M::FreeMod{T})</code></pre><blockquote><p>Return a Julia array whose entries are the generators of the given free module.</p></blockquote></div><a class="source-link" target="_blank" href="https://github.com/oscar-system/Singular.jl/blob/4c0a9522a7a6785a4513ea4d1e2d90976522ff69/src/module/vector.jl#L27">source</a></section><p><strong>Examples</strong></p><pre><code class="language-none">R, (x, y) = PolynomialRing(QQ, [&quot;x&quot;, &quot;y&quot;])
 
-**Examples**
-</code></pre><p>R, (x, y) = PolynomialRing(QQ, [&quot;x&quot;, &quot;y&quot;])</p><p>M = FreeModule(R, 5)</p><p>v = gens(M) r = rank(M)</p><pre><code class="language-none">
-### Conversions
+M = FreeModule(R, 5)
 
-To convert the internal Singular representation of an `svector{T}` to a Julia array
-whose entries have type `T`, we have the following conversion routine.
-</code></pre><p>julia Array{T &lt;: Nemo.RingElem}(v::svector{spoly{T}})</p><pre><code class="language-none">
-**Examples**
-</code></pre><p>julia R, (x, y) = PolynomialRing(QQ, [&quot;x&quot;, &quot;y&quot;])</p><p>v1 = vector(R, x + 1, x*y + 1, y)</p><p>V = Array(v1) ```</p><footer><hr/><a class="previous" href="module.html"><span class="direction">Previous</span><span class="title">Finitely generated modules</span></a></footer></article></body></html>
+v = gens(M)
+r = rank(M)</code></pre><h3><a class="nav-anchor" id="Conversions-1" href="#Conversions-1">Conversions</a></h3><p>To convert the internal Singular representation of an <code>svector{T}</code> to a Julia array whose entries have type <code>T</code>, we have the following conversion routine.</p><pre><code class="language-julia">Array{T &lt;: Nemo.RingElem}(v::svector{spoly{T}})</code></pre><p><strong>Examples</strong></p><pre><code class="language-julia">R, (x, y) = PolynomialRing(QQ, [&quot;x&quot;, &quot;y&quot;])
+
+v1 = vector(R, x + 1, x*y + 1, y)
+
+V = Array(v1)</code></pre><footer><hr/><a class="previous" href="module.html"><span class="direction">Previous</span><span class="title">Finitely generated modules</span></a></footer></article></body></html>

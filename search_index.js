@@ -993,11 +993,27 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "vector.html#AbstractAlgebra.Generic.gens-Union{Tuple{Singular.FreeMod{T}}, Tuple{T}} where T<:AbstractAlgebra.RingElem",
+    "page": "Free modules and vectors",
+    "title": "AbstractAlgebra.Generic.gens",
+    "category": "Method",
+    "text": "gens{T <: AbstractAlgebra.RingElem}(M::FreeMod{T})\n\nReturn a Julia array whose entries are the generators of the given free module.\n\n\n\n"
+},
+
+{
     "location": "vector.html#Basic-manipulation-1",
     "page": "Free modules and vectors",
     "title": "Basic manipulation",
     "category": "section",
-    "text": "rank(::FreeMod)gens{T <: AbstractAlgebra.RingElem}(::FreeMod{T})```\n\n**Examples**\nR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])M = FreeModule(R, 5)v = gens(M) r = rank(M)\n### Conversions\n\nTo convert the internal Singular representation of an `svector{T}` to a Julia array\nwhose entries have type `T`, we have the following conversion routine.\njulia Array{T <: Nemo.RingElem}(v::svector{spoly{T}})\n**Examples**\njulia R, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])v1 = vector(R, x + 1, x*y + 1, y)V = Array(v1) ```"
+    "text": "rank(::FreeMod)gens{T <: AbstractAlgebra.RingElem}(::FreeMod{T})ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nM = FreeModule(R, 5)\n\nv = gens(M)\nr = rank(M)"
+},
+
+{
+    "location": "vector.html#Conversions-1",
+    "page": "Free modules and vectors",
+    "title": "Conversions",
+    "category": "section",
+    "text": "To convert the internal Singular representation of an svector{T} to a Julia array whose entries have type T, we have the following conversion routine.Array{T <: Nemo.RingElem}(v::svector{spoly{T}})ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\n\nV = Array(v1)"
 },
 
 ]}
