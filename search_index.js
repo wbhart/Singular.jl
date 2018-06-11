@@ -557,7 +557,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Ideals",
     "title": "Ideals",
     "category": "section",
-    "text": "Singular.jl allows the creation of ideals over a Singular polynomial ring. These are internally stored as a list of (polynomial) generators. This list of generators can also  have the property of being a Groebner basis.The default ideal type in Singular.jl is the Singular sideal type.Ideals objects have a parent object which represents the set of ideals they belong to, the data for which is given by the polynomial ring their generators belong to.The types of ideals and associated parent objects are given in the following table according to the library provding them.Library Element type Parent type\nSingular sideal{T} Singular.IdealSet{T}These types are parameterised by the type of elements in the coefficient ring of the polynomials that generate the ideals.All ideal types belong directly to the abstract type Module{T} and all the ideal set parent object types belong to the abstract type Set."
+    "text": "Singular.jl allows the creation of ideals over a Singular polynomial ring. These are internally stored as a list of (polynomial) generators. This list of generators can also  have the property of being a Groebner basis.The default ideal type in Singular.jl is the Singular sideal type.Ideals objects have a parent object which represents the set of ideals they belong to, the data for which is given by the polynomial ring their generators belong to.The types of ideals and associated parent objects are given in the following table according to the library provding them.Library Element type Parent type\nSingular sideal{T} Singular.IdealSet{T}These types are parameterised by the type of elements of the polynomial ring over which the ideals are defined.All ideal types belong directly to the abstract type Module{T} and all the ideal set parent object types belong to the abstract type Set."
 },
 
 {
@@ -838,6 +838,118 @@ var documenterSearchIndex = {"docs": [
     "title": "Free resolutions",
     "category": "section",
     "text": "fres{T <: Nemo.RingElem}(::sideal{T}, ::Int, ::String)sres{T <: Nemo.RingElem}(::sideal{T}, ::Int)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nI = Ideal(R, x^2*y + 2y + 1, y^2 + 1)\n\nF1 = fres(std(I), 0)\nF2 = sres(std(I), 2)"
+},
+
+{
+    "location": "module.html#",
+    "page": "Finitely generated modules",
+    "title": "Finitely generated modules",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "module.html#Finitely-generated-modules-1",
+    "page": "Finitely generated modules",
+    "title": "Finitely generated modules",
+    "category": "section",
+    "text": "Singular.jl allows the creation of submodules of a free module over a Singular polynomial ring, given by a finite generating set. These are internally stored as a list of elements of a free module over a polynomial ring R. This list of generators can also  have the property of being a Groebner basis.The default finitely generated module type in Singular.jl is the Singular smodule type.Module objects have a parent object which represents the class of R-modules they belong to, the data for which is given by the polynomial ring R over which the modules are defined.The types of modules and associated parent objects are given in the following table according to the library provding them.Library Element type Parent type\nSingular smodule{T} Singular.ModuleClass{T}These types are parameterised by the type of elements in the polynomial ring R.All module types belong directly to the abstract type Module{T} and all the module class parent object types belong to the abstract type Set."
+},
+
+{
+    "location": "module.html#Module-functionality-1",
+    "page": "Finitely generated modules",
+    "title": "Module functionality",
+    "category": "section",
+    "text": "Singular.jl modules implement standard operations one would expect on modules. These include:Operations common to all AbstractAlgebra objects, such as parent, base_ring, elem_type, parent_type, parent, deepcopy, etc.Below, we describe all of the functionality for Singular.jl modules that is not included in this list of basic operations."
+},
+
+{
+    "location": "module.html#Constructors-1",
+    "page": "Finitely generated modules",
+    "title": "Constructors",
+    "category": "section",
+    "text": "Given a Singular polynomial ring R, the following constructors are available for creating modules.Module{T <: Nemo.RingElem}(R::PolyRing{T}, vecs::svector{spoly{T}}...)Construct the module over the polynomial ring R whose generators are given  by the given parameter list of vectors (of length n), each component of which is a polynomial. These vectors represent elements of the free module R^n.Note that Module must be prepended with the package name Singular to disambiguate from Base.Module.ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\nv2 = vector(R, x^2 + 1, 2x + 3y, x)\n\nM = Singular.Module(R, v1, v2)"
+},
+
+{
+    "location": "module.html#Singular.ngens-Tuple{Singular.smodule}",
+    "page": "Finitely generated modules",
+    "title": "Singular.ngens",
+    "category": "Method",
+    "text": "ngens(I::smodule)\n\nReturn the number of generators in the current representation of the module (as a list of vectors).\n\n\n\n"
+},
+
+{
+    "location": "module.html#Base.LinAlg.rank-Tuple{Singular.smodule}",
+    "page": "Finitely generated modules",
+    "title": "Base.LinAlg.rank",
+    "category": "Method",
+    "text": "rank(I::smodule)\n\nReturn the rank n of the ambient space R^n of which this module is a submodule.\n\n\n\n"
+},
+
+{
+    "location": "module.html#Base.iszero-Tuple{Singular.smodule}",
+    "page": "Finitely generated modules",
+    "title": "Base.iszero",
+    "category": "Method",
+    "text": "iszero(p::smodule)\n\nReturn true if this is algebraically the zero module.\n\n\n\n"
+},
+
+{
+    "location": "module.html#Basic-manipulation-1",
+    "page": "Finitely generated modules",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "ngens(::smodule)rank(::smodule)Singular.jl overloads the setindex! and getindex functions so that one can access the generators of a module using array notation. Each entry is a vector in R^n.M[n::Int]iszero(::smodule)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\nv2 = vector(R, x^2 + 1, 2x + 3y, x)\n\nM = Singular.Module(R, v1, v2)\n\niszero(M) == false\nM[1] == v1\nn = rank(M)\nd = ngens(M)"
+},
+
+{
+    "location": "module.html#Base.std-Tuple{Singular.smodule}",
+    "page": "Finitely generated modules",
+    "title": "Base.std",
+    "category": "Method",
+    "text": "std(I::smodule; complete_reduction::Bool=false)\n\nCompute the Groebner basis of the module I. If complete_reduction is set to true, the result is unique, up to permutation of the generators and multiplication by constants. If not, only the leading terms are unique (up to permutation of the generators and multiplication by constants, of course). Presently the polynomial ring used must be over a field or over the Singular integers.\n\n\n\n"
+},
+
+{
+    "location": "module.html#Standard-basis-1",
+    "page": "Finitely generated modules",
+    "title": "Standard basis",
+    "category": "section",
+    "text": "std(::smodule; ::Bool)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\nv2 = vector(R, x^2 + 1, 2x + 3y, x)\nv3 = x*v1 + y*v2 + vector(R, x, y + 1, y^2)\n\nM = Singular.Module(R, v1, v2, v3)\n\nG = std(M; complete_reduction=true)"
+},
+
+{
+    "location": "module.html#Singular.syz-Tuple{Singular.smodule}",
+    "page": "Finitely generated modules",
+    "title": "Singular.syz",
+    "category": "Method",
+    "text": "syz(M::smodule)\n\nCompute the module of syzygies of the given module. This will be given as a set of generators in an ambient space R^n, where n is the number of generators in M.\n\n\n\n"
+},
+
+{
+    "location": "module.html#Syzygies-1",
+    "page": "Finitely generated modules",
+    "title": "Syzygies",
+    "category": "section",
+    "text": "syz(::smodule)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, (x + 1)*y, (x*y + 1)*y, y)\nv2 = vector(R, (x + 1)*x, (x*y + 1)*x, x)\n\nM = Singular.Module(R, v1, v2)\n\nZ = syz(M)"
+},
+
+{
+    "location": "module.html#Singular.sres-Union{Tuple{Singular.smodule{T},Int64}, Tuple{T}} where T<:AbstractAlgebra.RingElem",
+    "page": "Finitely generated modules",
+    "title": "Singular.sres",
+    "category": "Method",
+    "text": "sres{T <: Nemo.RingElem}(I::smodule{T}, max_length::Int)\n\nCompute a free resolution of the given module I of length up to the given maximum length. If max_length is set to zero, a full length free resolution is computed. Each element of the resolution is itself a module.\n\n\n\n"
+},
+
+{
+    "location": "module.html#Free-resolutions-1",
+    "page": "Finitely generated modules",
+    "title": "Free resolutions",
+    "category": "section",
+    "text": "sres{T <: Nemo.RingElem}(::smodule{T}, ::Int)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\nv2 = vector(R, x^2 + 1, 2x + 3y, x)\n\nM = std(Singular.Module(R, v1, v2))\n\nF = sres(M, 0)\n\nM1 = Singular.Matrix(M)\nM2 = Singular.Matrix(F[2])\n\n# test we have a complex\niszero(M1*M2)"
 },
 
 ]}
