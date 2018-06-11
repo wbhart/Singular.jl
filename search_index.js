@@ -952,4 +952,52 @@ var documenterSearchIndex = {"docs": [
     "text": "sres{T <: Nemo.RingElem}(::smodule{T}, ::Int)ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nv1 = vector(R, x + 1, x*y + 1, y)\nv2 = vector(R, x^2 + 1, 2x + 3y, x)\n\nM = std(Singular.Module(R, v1, v2))\n\nF = sres(M, 0)\n\nM1 = Singular.Matrix(M)\nM2 = Singular.Matrix(F[2])\n\n# test we have a complex\niszero(M1*M2)"
 },
 
+{
+    "location": "vector.html#",
+    "page": "Free modules and vectors",
+    "title": "Free modules and vectors",
+    "category": "page",
+    "text": "CurrentModule = Singular"
+},
+
+{
+    "location": "vector.html#Free-modules-and-vectors-1",
+    "page": "Free modules and vectors",
+    "title": "Free modules and vectors",
+    "category": "section",
+    "text": "As generators of finitely generated modules in Singular.jl are given as submodule of free modules over a polynomial ring R, Singular.jl supports creation of the free module R^n and vectors of length n in such a module.The Singular.jl type for a vector is svector{T}. For the most part, these exist to help interact with the smodule{T} type provided by Singular.The types of vectors and associated parent objects are given in the following table according to the library provding them.Library Element type Parent type\nSingular svector{T} Singular.FreeMod{T}These types are parameterised by the type of elements in the polynomial ring R.All free module types belong directly to the abstract type Module{T} and vector types belong directly to ModuleElem{T}."
+},
+
+{
+    "location": "vector.html#Free-module-and-vector-functionality-1",
+    "page": "Free modules and vectors",
+    "title": "Free module and vector functionality",
+    "category": "section",
+    "text": "Singular.jl modules implement standard operations one would expect on vectors and their associated parent modules.These include:Operations common to all AbstractAlgebra objects, such as parent, base_ring, elem_type, parent_type, parent, deepcopy, etc.\nArithmetic operations on vectors: (unary) -, +, -\nScalar multiplication of vectors by polynomials, constants and integers\nComparison operators: ==Below, we describe all of the functionality for Singular.jl free modules that is not included in this list of basic operations."
+},
+
+{
+    "location": "vector.html#Constructors-1",
+    "page": "Free modules and vectors",
+    "title": "Constructors",
+    "category": "section",
+    "text": "Given a Singular polynomial ring R and a rank n, the following constructors are available for creating free modules.FreeModule{T <: AbstractAlgebra.RingElem}(R::PolyRing{T}, n::Int)Construct the free module R^n over the polynomial ring R. Elements of the module returned by this function are vectors of length n, with entries in R.vector{T <: AbstractAlgebra.RingElem}(R::PolyRing{T}, coords::spoly{T}...)Construct the vector whose coordinates (which are elements of R) are the given parameters.ExamplesR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])\n\nM = FreeModule(R, 3)\nv2 = M([x + 1, x*y + 1, y])\n\nv1 = vector(R, x + 1, x*y + 1, y)"
+},
+
+{
+    "location": "vector.html#Base.LinAlg.rank-Tuple{Singular.FreeMod}",
+    "page": "Free modules and vectors",
+    "title": "Base.LinAlg.rank",
+    "category": "Method",
+    "text": "rank(M::FreeMod)\n\nReturn the rank of the given free module.\n\n\n\n"
+},
+
+{
+    "location": "vector.html#Basic-manipulation-1",
+    "page": "Free modules and vectors",
+    "title": "Basic manipulation",
+    "category": "section",
+    "text": "rank(::FreeMod)gens{T <: AbstractAlgebra.RingElem}(::FreeMod{T})```\n\n**Examples**\nR, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])M = FreeModule(R, 5)v = gens(M) r = rank(M)\n### Conversions\n\nTo convert the internal Singular representation of an `svector{T}` to a Julia array\nwhose entries have type `T`, we have the following conversion routine.\njulia Array{T <: Nemo.RingElem}(v::svector{spoly{T}})\n**Examples**\njulia R, (x, y) = PolynomialRing(QQ, [\"x\", \"y\"])v1 = vector(R, x + 1, x*y + 1, y)V = Array(v1) ```"
+},
+
 ]}
