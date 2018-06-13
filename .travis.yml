@@ -15,7 +15,7 @@ addons:
            - liblapack-dev
            - libgmp-dev
            - libmpfr-dev
-
+ 
 matrix:
     include:
        - language: julia
