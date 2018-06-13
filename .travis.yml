@@ -34,6 +34,7 @@ script:
     - if [ ! -f $HOME/early_abort ]; then julia -e 'Pkg.clone("https://github.com/Keno/Cxx.jl")' || false; fi
     - if [ ! -f $HOME/early_abort ]; then PREBUILT_CI_BINARIES=1 julia -e 'Pkg.build("Cxx")' || false; fi
     - if [ ! -f $HOME/early_abort ]; then julia -e 'Pkg.clone("https://github.com/wbhart/Singular.jl")' || false; fi
+    - if [ ! -f $HOME/early_abort ]; then julia -e 'Pkg.build("Singular")' || false; fi
     - if [ ! -f $HOME/early_abort ]; then julia -e 'Pkg.test("Singular"; coverage=true)' || false; fi
 
 notifications:
