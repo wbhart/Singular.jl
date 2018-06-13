@@ -31,7 +31,7 @@ install:
     - export THE_PKG_DIR=`julia -e 'println(Pkg.dir())'`
 
 script:
-    - julia -e 'Pkg.clone("https://github.com/Keno/Cxx.jl")
+    - julia -e 'Pkg.clone("https://github.com/Keno/Cxx.jl")'
     - if [ ! -f $HOME/early_abort ]; then PREBUILT_CI_BINARIES=1 julia -e 'Pkg.build("Cxx")' || false; fi
 
 notifications:
