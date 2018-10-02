@@ -1,6 +1,6 @@
 export spoly, PolyRing, coeff, coeffs_expos, degree, exponent!, isgen, content,
        exponent, lead_exponent, ngens, degree_bound, primpart, @PolynomialRing,
-       has_global_ordering
+       has_global_ordering, jet, Diff, jacob
 
 ###############################################################################
 #
@@ -48,7 +48,7 @@ doc"""
     degree_bound(R::PolyRing)
 > Return the internal degree bound in each variable, enforced by Singular. This is the
 > largest positive value any degree can have before an overflow will occur. This
-> internal bound may be higher than the bound requested by the user via the 
+> internal bound may be higher than the bound requested by the user via the
 > `degree_bound` parameter of the `PolynomialRing` constructor.
 """
 function degree_bound(R::PolyRing)
@@ -67,7 +67,7 @@ end
 
 function isgen(p::spoly)
    R = parent(p)
-   if p.ptr == C_NULL || libSingular.pNext(p.ptr) != C_NULL || 
+   if p.ptr == C_NULL || libSingular.pNext(p.ptr) != C_NULL ||
      !Bool(libSingular.n_IsOne(libSingular.pGetCoeff(p.ptr), base_ring(p).ptr))
       return false
    end
@@ -83,7 +83,7 @@ function isgen(p::spoly)
          n = 1
       end
    end
-   return n == 1   
+   return n == 1
 end
 
 function isconstant(p::spoly)
@@ -99,7 +99,7 @@ function isconstant(p::spoly)
          return false
       end
    end
-   return true   
+   return true
 end
 
 function isunit(p::spoly)
@@ -208,7 +208,7 @@ function Base.next(sp::coeffs_expos, p)
   libSingular.p_GetExpVL(p, sp.E, sp.Rx.ptr)
   sp.c = sp.R(libSingular.n_Copy(libSingular.pGetCoeff(p), sp.R.ptr))
 
-  return (sp.c, sp.E), libSingular.pNext(p) 
+  return (sp.c, sp.E), libSingular.pNext(p)
 end
 
 function Base.done(sp::coeffs_expos, p)
@@ -241,7 +241,47 @@ end
 function canonical_unit{T <: Nemo.RingElem}(a::spoly{T})
   return a == 0 ? one(base_ring(a)) : canonical_unit(coeff(a, 0))
 end
-   
+
+doc"""
+   jet(x::spoly, n::Int)
+> Given a polynomial $x$ this function truncates $x$ up to degree $n$.
+"""
+function jet(x::spoly,n::Int)
+   p=deepcopy(x)
+   p.ptr=libSingular.p_Jet(x.ptr,Cint(n),parent(x).ptr)
+   return p
+end
+
+doc"""
+   Diff(x::spoly, n::Int)
+> Given a polynomial $x$ this function returns the derivative of $x$
+> with respect to the variable with number $n$.
+"""
+function Diff(x::spoly,n::Int)
+   R=parent(x)
+   if n>ngens(R) || n<1
+       error("Variable does not exist")
+   else
+       p=deepcopy(x)
+       p.ptr=libSingular.p_Diff(p.ptr,Cint(n),R.ptr)
+       return p
+   end
+end
+
+doc"""
+   jacob(x::spoly)
+> Given a polynomial $x$ this function the Jacobian ideal of $x$.
+"""
+function jacob{T <: Nemo.RingElem}(p::spoly{T})
+   R=parent(p)
+   n=ngens(R)
+   A=Array{spoly{T},1}(n)
+   for i in 1:n
+       A[i]=Diff(p,i)
+   end
+  return Ideal(R,A)
+end
+
 ###############################################################################
 #
 #   String I/O
@@ -277,7 +317,7 @@ isnegative(x::spoly) = isconstant(x) && !iszero(x) && isnegative(coeff(x, 0))
 function -(a::spoly)
    a1 = libSingular.p_Copy(a.ptr, parent(a).ptr)
    s = libSingular.p_Neg(a1, parent(a).ptr)
-   return parent(a)(s) 
+   return parent(a)(s)
 end
 
 ###############################################################################
@@ -291,7 +331,7 @@ function +{T <: Nemo.RingElem}(a::spoly{T}, b::spoly{T})
    a1 = libSingular.p_Copy(a.ptr, parent(a).ptr)
    b1 = libSingular.p_Copy(b.ptr, parent(a).ptr)
    s = libSingular.p_Add_q(a1, b1, parent(a).ptr)
-   return parent(a)(s) 
+   return parent(a)(s)
 end
 
 function -{T <: Nemo.RingElem}(a::spoly{T}, b::spoly{T})
@@ -299,7 +339,7 @@ function -{T <: Nemo.RingElem}(a::spoly{T}, b::spoly{T})
    a1 = libSingular.p_Copy(a.ptr, parent(a).ptr)
    b1 = libSingular.p_Copy(b.ptr, parent(a).ptr)
    s = libSingular.p_Sub(a1, b1, parent(a).ptr)
-   return parent(a)(s) 
+   return parent(a)(s)
 end
 
 function *{T <: Nemo.RingElem}(a::spoly{T}, b::spoly{T})
@@ -307,7 +347,7 @@ function *{T <: Nemo.RingElem}(a::spoly{T}, b::spoly{T})
    a1 = libSingular.p_Copy(a.ptr, parent(a).ptr)
    b1 = libSingular.p_Copy(b.ptr, parent(a).ptr)
    s = libSingular.p_Mult_q(a1, b1, parent(a).ptr)
-   return parent(a)(s) 
+   return parent(a)(s)
 end
 
 ###############################################################################
@@ -436,7 +476,7 @@ function addeq!(x::spoly, y::spoly)
     return x
 end
 
-function mul!(c::spoly, x::spoly, y::spoly) 
+function mul!(c::spoly, x::spoly, y::spoly)
    R = parent(x)
    x1 = libSingular.p_Copy(x.ptr, R.ptr)
    y1 = libSingular.p_Copy(y.ptr, R.ptr)
@@ -448,7 +488,7 @@ function mul!(c::spoly, x::spoly, y::spoly)
    return c
 end
 
-function add!(c::spoly, x::spoly, y::spoly) 
+function add!(c::spoly, x::spoly, y::spoly)
    R = parent(x)
    x1 = libSingular.p_Copy(x.ptr, R.ptr)
    y1 = libSingular.p_Copy(y.ptr, R.ptr)
@@ -585,4 +625,3 @@ macro PolynomialRing(R, s, n)
    v1 = Expr(:block, exp1, v..., S)
    return esc(v1)
 end
-

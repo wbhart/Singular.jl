@@ -10,11 +10,11 @@ function idInit(size::Cint, rank = Cint(1))
    icxx"""idInit($size, $rank);"""
 end
 
-function setindex!(I::ideal, x::poly, j::Cint) 
+function setindex!(I::ideal, x::poly, j::Cint)
    icxx"""$I->m[$j] = $x;"""
 end
 
-function getindex(I::ideal, j::Cint) 
+function getindex(I::ideal, j::Cint)
    icxx"""(poly) ($I->m[$j]);"""
 end
 
@@ -70,11 +70,11 @@ function idSkipZeroes(I::ideal)
    icxx"""idSkipZeroes($I);"""
 end
 
-function ngens(I::ideal) 
+function ngens(I::ideal)
    icxx"""(int) IDELEMS($I);"""
 end
 
-function rank(I::ideal) 
+function rank(I::ideal)
    icxx"""(int) $I->rank;"""
 end
 
@@ -226,3 +226,38 @@ function maGetPreimage(target::ring, map::ideal, id::ideal, source::ring)
    """
    return preimage_ptr;
 end
+
+function id_Jet(I::ideal, n::Cint, r::ring)
+   icxx"""id_Jet($I,$n,$r);"""
+end
+
+function id_vdim(I::ideal,r::ring)
+   icxx"""
+	const ring origin = currRing;
+        rChangeCurrRing($r);
+        int n=scMult0Int($I, $r->qideal);
+	rChangeCurrRing(origin);
+	n;
+"""
+end
+
+function id_kbase(I::ideal,r::ring)
+   icxx""" ideal K;
+        const ring origin = currRing;
+        rChangeCurrRing($r);
+        K=scKBase(-1,$I, $r->qideal);
+        rChangeCurrRing(origin);
+        K;
+"""
+end
+
+function id_highcorner(I::ideal,r::ring)
+   icxx"""
+       const ring origin = currRing;
+       rChangeCurrRing($r);
+       poly h=iiHighCorner($I,0);
+       rChangeCurrRing(origin);
+       h;
+"""
+end
+

@@ -1,10 +1,11 @@
 export sideal, IdealSet, syz, lead, normalize!, isconstant, iszerodim, fres,
        sres, lres, intersection, quotient, reduce, eliminate, kernel, equal,
-       contains, isvar_generated, saturation, satstd, slimgb
+       contains, isvar_generated, saturation, satstd, slimgb, jet, jacob, vdim,
+       kbase, highcorner
 
 ###############################################################################
 #
-#   Basic manipulation 
+#   Basic manipulation
 #
 ###############################################################################
 
@@ -28,7 +29,7 @@ ngens(I::sideal) = Int(libSingular.ngens(I.ptr))
 
 function checkbounds(I::sideal, i::Int)
    (i > ngens(I) || i < 1) && throw(BoundsError(I, i))
-end   
+end
 
 function setindex!{T <: Nemo.RingElem}(I::sideal{spoly{T}}, p::spoly{T}, i::Int)
    checkbounds(I, i)
@@ -58,7 +59,7 @@ iszero(I::sideal) = Bool(libSingular.idIs0(I.ptr))
 doc"""
     iszerodim(I::sideal)
 > Return `true` if the given ideal is zero dimensional, i.e. the Krull dimension of
-> $R/I$ is zero, where $R$ is the polynomial ring over which $I$ is an ideal..
+> $R/I$ is zero, where $R$ is the polynomial ring over which $I$ is an ideal.
 """
 iszerodim(I::sideal) = Bool(libSingular.id_IsZeroDim(I.ptr, base_ring(I).ptr))
 
@@ -105,9 +106,37 @@ function check_parent{T <: Nemo.RingElem}(I::sideal{T}, J::sideal{T})
    base_ring(I) != base_ring(J) && error("Incompatible ideals")
 end
 
+doc"""
+   jet(I::sideal, n::Int)
+> Given an ideal $I$ this function truncates the generators of $I$
+> up to degree $n$.
+"""
+function jet(I::sideal, n::Int)
+   J=deepcopy(I)
+   J.ptr=libSingular.id_Jet(I.ptr,Cint(n),base_ring(I).ptr)
+   return J
+end
+
+doc"""
+   jacob(I::sideal)
+> Given an ideal $I$ this function computes the jacobi matrix of
+> the generatos of $I$. The output is a matrix object.
+"""
+function jacob(I::sideal)
+   R=base_ring(I)
+   n=ngens(R)
+   J=zero_matrix(R,n,n)
+   for i in 1:n
+      for j in 1:n
+         J[i,j]=Diff(I[i],j)
+      end
+   end
+   return J
+end
+
 ###############################################################################
 #
-#   String I/O 
+#   String I/O
 #
 ###############################################################################
 
@@ -260,7 +289,7 @@ doc"""
     quotient{T <: Nemo.RingElem}(I::sideal{T}, J::sideal{T})
 > Returns the quotient of the two given ideals. Recall that the ideal quotient
 > $(I:J)$ over a polynomial ring $R$ is defined by
-> $\{r \in R \;|\; rJ \subseteq I\}$. 
+> $\{r \in R \;|\; rJ \subseteq I\}$.
 """
 function quotient{T <: Nemo.RingElem}(I::sideal{T}, J::sideal{T})
    check_parent(I, J)
@@ -325,7 +354,7 @@ doc"""
 > constants). If `complete_reduction` is set to `true` (and the ordering is
 > a global ordering) then the Groebner basis is unique.
 """
-function std(I::sideal; complete_reduction::Bool=false) 
+function std(I::sideal; complete_reduction::Bool=false)
    R = base_ring(I)
    ptr = libSingular.id_Std(I.ptr, R.ptr; complete_reduction=complete_reduction)
    libSingular.idSkipZeroes(ptr)
@@ -437,7 +466,7 @@ doc"""
     syz(I::sideal)
 > Compute the module of syzygies of the ideal.
 """
-function syz(I::sideal) 
+function syz(I::sideal)
    R = base_ring(I)
    ptr = libSingular.id_Syzygies(I.ptr, R.ptr)
    libSingular.idSkipZeroes(ptr)
@@ -535,3 +564,66 @@ function MaximalIdeal{T <: Nemo.RingElem}(R::PolyRing{T}, d::Int)
    ptr = libSingular.id_MaxIdeal(Cint(d), R.ptr)
    return sideal{S}(R, ptr)
 end
+
+
+###############################################################################
+#
+#   Operations on zero-dimensional ideals
+#
+###############################################################################
+
+doc"""
+   vdim(I::sideal)
+> Given a zero-dimensional ideal $I$ this function computes the
+> dimension of the vector space $R/I$, where $R$ is the
+> polynomial ring over which $I$ is an ideal. The ideal must be
+> over a polynomial ring over a field, and a Groebner basis.
+"""
+function vdim(I::sideal)
+   if I.isGB==false
+      error("Ideal does not have a standard basis")
+   elseif iszerodim==false
+      error("Ideal is not zero-dimensional")
+   else
+      libSingular.id_vdim(I.ptr,base_ring(I).ptr)
+   end
+end
+
+doc"""
+   kbase(I::sideal)
+> Given a zero-dimensional ideal $I$ this function computes a
+> vector space basis of the vector space $R/I$, where $R$ is the
+> polynomial ring over which $I$ is an ideal. The ideal must be
+> over a polynomial ring over a field, and a Groebner basis.
+"""
+function kbase(I::sideal)
+   if I.isGB==false
+      error("Ideal does not have a standard basis")
+   elseif iszerodim==false
+      error("Ideal is not zero-dimensional")
+   else
+      K=deepcopy(I)
+      K.ptr=libSingular.id_kbase(I.ptr,base_ring(I).ptr)
+      return K
+   end
+end
+
+doc"""
+   highcorner(I::sideal)
+> Given a zero-dimensional ideal $I$ this function computes a
+> The highest corner of $I$. The output is a polynomial.
+> The ideal must be over a polynomial ring over a field, and
+> a Groebner basis.
+"""
+function highcorner(I::sideal)
+   if I.isGB==false
+      error("Ideal does not have a standard basis")
+   elseif iszerodim==false
+      error("Ideal is not zero-dimensional")
+   else
+      K=deepcopy(I[1])
+      K.ptr=libSingular.id_highcorner(I.ptr,base_ring(I).ptr)
+      return K
+   end
+end
+

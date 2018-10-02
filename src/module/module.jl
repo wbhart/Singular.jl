@@ -1,8 +1,7 @@
-export smodule, ModuleClass, rank, slimgb
-
+export smodule, ModuleClass, rank, slimgb, jet
 ###############################################################################
 #
-#   Basic manipulation 
+#   Basic manipulation
 #
 ###############################################################################
 
@@ -54,9 +53,21 @@ function deepcopy_internal(I::smodule, dict::ObjectIdDict)
    return Module(R, ptr)
 end
 
+doc"""
+   jet(M::smodule, n::Int)
+> Given a module $M$ this function truncates the generators of $M$
+> up to degree $n$.
+"""
+function jet(M::smodule,n::Int)
+      R=base_ring(M)
+      ptr=libSingular.id_Jet(M.ptr,Cint(n),R.ptr)
+      libSingular.idSkipZeroes(ptr)
+      return Module(R,ptr)
+end
+
 ###############################################################################
 #
-#   String I/O 
+#   String I/O
 #
 ###############################################################################
 
@@ -93,7 +104,7 @@ doc"""
 > course). Presently the polynomial ring used must be over a field or over
 > the Singular integers.
 """
-function std(I::smodule; complete_reduction::Bool=false) 
+function std(I::smodule; complete_reduction::Bool=false)
    R = base_ring(I)
    ptr = libSingular.id_Std(I.ptr, R.ptr; complete_reduction=complete_reduction)
    libSingular.idSkipZeroes(ptr)

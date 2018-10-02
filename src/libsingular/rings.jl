@@ -6,7 +6,7 @@ function rDefault(cf::coeffs, vars::Array{Ptr{UInt8}, 1}, ord::rRingOrder_t)
    return r
 end
 
-function rDefault{T}(cf::coeffs, vars::Array{T,1}, ord::Array{rRingOrder_t, 1}, 
+function rDefault{T}(cf::coeffs, vars::Array{T,1}, ord::Array{rRingOrder_t, 1},
    blk0::Array{Cint, 1}, blk1::Array{Cint, 1}, bitmask::Culong)
    wvhdl = Ptr{Ptr{Cint}}(C_NULL)
    len = length(vars)
@@ -196,4 +196,13 @@ function p_Reduce(p::ideal, G::ideal, R::ring)
           rChangeCurrRing(origin);
           res;
        """
+end
+
+function p_Jet(p::poly, n::Cint, r::ring)
+   icxx"""poly j= pp_Jet($p,$n,$r);
+          j;"""
+end
+
+function p_Diff(p::poly,n::Cint,r::ring)
+   icxx"""poly j=p_Diff($p,$n,$r);j;"""
 end
