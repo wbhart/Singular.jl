@@ -119,7 +119,7 @@ end
 
 doc"""
    jacob(I::sideal)
-> Given an ideal $I$ this function computes the jacobi matrix of
+> Given an ideal $I$ this function computes the Jacobian matrix of
 > the generatos of $I$. The output is a matrix object.
 """
 function jacob(I::sideal)
@@ -610,8 +610,8 @@ end
 
 doc"""
    highcorner(I::sideal)
-> Given a zero-dimensional ideal $I$ this function computes a
-> The highest corner of $I$. The output is a polynomial.
+> Given a zero-dimensional ideal $I$ this function computes
+> the highest corner of $I$. The output is a polynomial.
 > The ideal must be over a polynomial ring over a field, and
 > a Groebner basis.
 """
