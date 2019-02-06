@@ -17,7 +17,7 @@ import Statistics: std
 
 import Nemo: add!, addeq!, base_ring, canonical_unit,
              characteristic, check_parent, coeff,
-             coeffs, contains, content, crt, degree, divexact,
+             coeffs, contains, content, crt, degree, degrees, divexact,
              elem_type, exponent_vectors, finish, gcdinv,
              gen, gens, intersect, isconstant, ismonomial, isnegative, isone,
              isgen, iszero, isunit, lead, monomials,
